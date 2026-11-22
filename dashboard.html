@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Company | CEO Dashboard</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;padding:20px;
+  font-family:Arial,sans-serif;
+   background:#0b1120;color:#f8fafc;
+   }
+   header{margin-bottom:25px}
+   header p,.muted{color:#94a3b8}
+   h1{font-size:30px;margin:10px 0}
+   h2{font-size:20px;margin:28px 0 15px}
+   .stats,.departments{
+    display:grid;
+     grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      }
+      .card{
+       background:#19263a;
+        border:1px solid #33445e;
+         border-radius:15px;
+          padding:17px;
+          }
+          .number{font-size:29px;font-weight:bold;margin-top:12px}
+          .department{min-height:115px}
+          .department strong{display:block;margin:12px 0}
+          textarea{
+           width:100%;min-height:110px;
+            padding:13px;border-radius:10px;
+             background:#0b1120;color:white;
+              border:1px solid #475569;
+               font:inherit;resize:vertical;
+               }
+               button{
+                border:0;border-radius:9px;
+                 padding:11px 15px;
+                  color:white;background:#7255ed;
+                   font-weight:bold;cursor:pointer;
+                   }
+                   button:disabled{opacity:.5}
+                   button.reject{background:#b93e55}
+                   button.secondary{background:#34445e}
+                   .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+                   .task{margin:12px 0;padding:14px 0;border-bottom:1px solid #33445e}
+                   .task:last-child{border:0}
+                   .status{font-size:13px;color:#fbbf24;margin-top:7px}
+                   .task-title{font-weight:bold;line-height:1.5}
+                   .empty{color:#94a3b8;text-align:center;padding:15px}
+                   footer{margin-top:35px;text-align:center;color:#64748b;font-size:12px}
+                   @media(min-width:700px){
+                    body{max-width:900px;margin:auto}
+                     .stats{grid-template-columns:repeat(3,1fr)}
+                      .departments{grid-template-columns:repeat(3,1fr)}
+                      }
+                      </style>
+                      </head>
+
+                      <body>
+                      <header>
+                       <p>● PUSAT KENDALI PERUSAHAAN</p>
+                        <h1>AI Company 🚀</h1>
+                         <p class="muted">CEO Dashboard | Pusat Komando</p>
+                         </header>
+
+                         <section class="stats">
+                          <div class="card">
+                            <div class="muted">Total Divisi</div>
+                              <div class="number">7</div>
+                               </div>
+                                <div class="card">
+                                  <div class="muted">Total Tugas</div>
+                                    <div class="number" id="total">0</div>
+                                     </div>
+                                      <div class="card">
+                                        <div class="muted">Menunggu Persetujuan</div>
+                                          <div class="number" id="pending">0</div>
+                                           </div>
+                                           </section>
+
+                                           <h2>🏢 Divisi Perusahaan</h2>
+                                           <section class="departments">
+                                            <div class="card department">👔<strong>AI Manager</strong><span class="muted">Mengatur pekerjaan</span></div>
+                                             <div class="card department">🔎<strong>Research</strong><span class="muted">Riset ide dan data</span></div>
+                                              <div class="card department">✍️<strong>Script Writer</strong><span class="muted">Menulis naskah</span></div>
+                                               <div class="card department">🎬<strong>Video Creator</strong><span class="muted">Membuat video</span></div>
+                                                <div class="card department">✂️<strong>Editor</strong><span class="muted">Mengedit konten</span></div>
+                                                 <div class="card department">📢<strong>Marketing</strong><span class="muted">Promosi konten</span></div>
+                                                  <div class="card department">💰<strong>Finance</strong><span class="muted">Mengelola keuangan</span></div>
+                                                  </section>
+
+                                                  <h2>🧠 Perintah CEO</h2>
+                                                  <section class="card">
+                                                   <p class="muted">Tuliskan pekerjaan yang ingin kamu berikan kepada perusahaan.</p>
+                                                    <textarea id="command" placeholder="Contoh: Buat 5 ide video TikTok tentang bisnis online untuk pemula..."></textarea>
+                                                     <div class="actions">
+                                                       <button onclick="addTask()">+ Kirim Perintah</button>
+                                                         <button class="secondary" onclick="clearInput()">Hapus Teks</button>
+                                                          </div>
+                                                          </section>
+
+                                                          <h2>📋 Daftar Pekerjaan</h2>
+                                                          <section class="card" id="taskList">
+                                                           <div class="empty">Belum ada tugas. Berikan perintah pertama kepada perusahaan!</div>
+                                                           </section>
+
+                                                           <h2>📜 Riwayat Pekerjaan</h2>
+                                                           <section class="card" id="history">
+                                                            <div class="empty">Belum ada riwayat.</div>
+                                                            </section>
+
+                                                            <footer>AI COMPANY © 2026 | CEO CONTROL SYSTEM</footer>
+
+                                                            <script>
+                                                            let tasks=[];
+                                                            try{
+                                                             tasks=JSON.parse(localStorage.getItem("ai_company_tasks")||"[]");
+                                                              if(!Array.isArray(tasks))tasks=[];
+                                                              }catch(e){tasks=[];}
+
+                                                              function save(){
+                                                               localStorage.setItem("ai_company_tasks",JSON.stringify(tasks));
+                                                                render();
+                                                                }
+
+                                                                function addTask(){
+                                                                 const input=document.getElementById("command");
+                                                                  const value=input.value.trim();
+                                                                   if(!value){
+                                                                     alert("Tulis perintah terlebih dahulu!");
+                                                                       return;
+                                                                        }
+                                                                         tasks.unshift({
+                                                                           id:Date.now(),
+                                                                             title:value,
+                                                                               status:"Menunggu dikerjakan",
+                                                                                 created:new Date().toLocaleString("id-ID")
+                                                                                  });
+                                                                                   input.value="";
+                                                                                    save();
+                                                                                    }
+
+                                                                                    function clearInput(){
+                                                                                     document.getElementById("command").value="";
+                                                                                     }
+
+                                                                                     function approve(id){
+                                                                                      const task=tasks.find(t=>t.id===id);
+                                                                                       if(task)task.status="Disetujui CEO";
+                                                                                        save();
+                                                                                        }
+
+                                                                                        function reject(id){
+                                                                                         const task=tasks.find(t=>t.id===id);
+                                                                                          if(task)task.status="Ditolak CEO";
+                                                                                           save();
+                                                                                           }
+
+                                                                                           function complete(id){
+                                                                                            const task=tasks.find(t=>t.id===id);
+                                                                                             if(task)task.status="Selesai";
+                                                                                              save();
+                                                                                              }
+
+                                                                                              function escapeHTML(value){
+                                                                                               return String(value).replace(/[&<>"']/g,c=>({
+                                                                                                "&":"&amp;","<":"&lt;",">":"&gt;",
+                                                                                                 '"':"&quot;","'":"&#39;"
+                                                                                                  })[c]);
+                                                                                                  }
+
+                                                                                                  function render(){
+                                                                                                   const list=document.getElementById("taskList");
+                                                                                                    const history=document.getElementById("history");
+                                                                                                     const active=tasks.filter(t=>t.status!=="Selesai"&&t.status!=="Ditolak CEO");
+                                                                                                      const done=tasks.filter(t=>t.status==="Selesai"||t.status==="Ditolak CEO");
+
+                                                                                                       document.getElementById("total").textContent=tasks.length;
+                                                                                                        document.getElementById("pending").textContent=
+                                                                                                          tasks.filter(t=>t.status==="Menunggu persetujuan CEO").length;
+
+                                                                                                           if(tasks.length===0){
+                                                                                                             list.innerHTML='<div class="empty">Belum ada tugas. Berikan perintah pertama kepada perusahaan!</div>';
+                                                                                                              }else{
+                                                                                                                list.innerHTML=active.map(t=>`
+                                                                                                                   <div class="task">
+                                                                                                                       <div class="task-title">${escapeHTML(t.title)}</div>
+                                                                                                                           <div class="status">${escapeHTML(t.status)}</div>
+                                                                                                                               <div class="muted">${escapeHTML(t.created)}</div>
+                                                                                                                                   <div class="actions">
+                                                                                                                                        ${t.status==="Menunggu dikerjakan"?`<button onclick="approve(${t.id})">Setujui</button><button class="reject" onclick="reject(${t.id})">Tolak</button>`:""}
+                                                                                                                                             ${t.status==="Disetujui CEO"?`<button onclick="complete(${t.id})">Tandai Selesai</button>`:""}
+                                                                                                                                                 </div>
+                                                                                                                                                    </div>`).join("");
+                                                                                                                                                     }
+                                                                                                                                                      history.innerHTML=done.length?done.map(t=>`
+                                                                                                                                                        <div class="task">
+                                                                                                                                                           <div class="task-title">${escapeHTML(t.title)}</div>
+                                                                                                                                                              <div class="status">${escapeHTML(t.status)}</div>
+                                                                                                                                                                </div>`).join(""):'<div class="empty">Belum ada riwayat.</div>';
+                                                                                                                                                                }
+
+                                                                                                                                                                render();
+                                                                                                                                                                </script>
+                                                                                                                                                                </body>
+                                                                                                                                                                </html>
+                                                                                                                                                                Create new CEO dashboard

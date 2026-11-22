@@ -1,157 +1,195 @@
-
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>AI Company - CEO Dashboard</title>
-        <style>
-            * { box-sizing: border-box; }
-                body {
-                      margin: 0;
-                            padding: 20px;
-                                  font-family: Arial, sans-serif;
-                                        background: #101827;
-                                              color: white;
-                                                  }
-                                                      h1 { margin-bottom: 5px; }
-                                                          .muted { color: #9ca9bd; }
-                                                              .header { margin-bottom: 25px; }
-                                                                  .stats, .departments {
-                                                                        display: grid;
-                                                                              grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-                                                                                    gap: 14px;
-                                                                                        }
-                                                                                            .card {
-                                                                                                  background: #1c293c;
-                                                                                                        border: 1px solid #34445c;
-                                                                                                              border-radius: 14px;
-                                                                                                                    padding: 17px;
-                                                                                                                        }
-                                                                                                                            .number { font-size: 28px; font-weight: bold; margin-top: 12px; }
-                                                                                                                                h2 { margin-top: 28px; font-size: 20px; }
-                                                                                                                                    .department { min-height: 110px; }
-                                                                                                                                        .department strong { display: block; margin: 10px 0; }
-                                                                                                                                            button {
-                                                                                                                                                  background: #7357ed;
-                                                                                                                                                        color: white;
-                                                                                                                                                              border: 0;
-                                                                                                                                                                    border-radius: 9px;
-                                                                                                                                                                          padding: 12px 16px;
-                                                                                                                                                                                font-weight: bold;
-                                                                                                                                                                                      cursor: pointer;
-                                                                                                                                                                                          }
-                                                                                                                                                                                              .task {
-                                                                                                                                                                                                    display: flex;
-                                                                                                                                                                                                          justify-content: space-between;
-                                                                                                                                                                                                                align-items: center;
-                                                                                                                                                                                                                      gap: 10px;
-                                                                                                                                                                                                                            flex-wrap: wrap;
-                                                                                                                                                                                                                                  margin: 10px 0;
-                                                                                                                                                                                                                                      }
-                                                                                                                                                                                                                                          .status { color: #f6c76b; font-size: 13px; }
-                                                                                                                                                                                                                                            </style>
-                                                                                                                                                                                                                                            </head>
-                                                                                                                                                                                                                                            <body>
-                                                                                                                                                                                                                                              <div class="header">
-                                                                                                                                                                                                                                                  <p class="muted">PUSAT KENDALI PERUSAHAAN</p>
-                                                                                                                                                                                                                                                      <h1>AI Company 🚀</h1>
-                                                                                                                                                                                                                                                          <p class="muted">CEO Dashboard | Selamat datang, CEO!</p>
-                                                                                                                                                                                                                                                            </div>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Company - CEO Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-                                                                                                                                                                                                                                                              <div class="stats">
-                                                                                                                                                                                                                                                                  <div class="card">
-                                                                                                                                                                                                                                                                        <div class="muted">Total Divisi</div>
-                                                                                                                                                                                                                                                                              <div class="number">7</div>
-                                                                                                                                                                                                                                                                                  </div>
-                                                                                                                                                                                                                                                                                      <div class="card">
-                                                                                                                                                                                                                                                                                            <div class="muted">Total Tugas</div>
-                                                                                                                                                                                                                                                                                                  <div class="number" id="total">1</div>
-                                                                                                                                                                                                                                                                                                      </div>
-                                                                                                                                                                                                                                                                                                          <div class="card">
-                                                                                                                                                                                                                                                                                                                <div class="muted">Menunggu Persetujuan</div>
-                                                                                                                                                                                                                                                                                                                      <div class="number" id="pending">1</div>
-                                                                                                                                                                                                                                                                                                                          </div>
-                                                                                                                                                                                                                                                                                                                            </div>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #101827;
+      color: white;
+    }
 
-                                                                                                                                                                                                                                                                                                                              <h2>🏢 Divisi Perusahaan</h2>
-                                                                                                                                                                                                                                                                                                                                <div class="departments">
-                                                                                                                                                                                                                                                                                                                                    <div class="card department">👔<strong>AI Manager</strong><span class="muted">Mengatur pekerjaan</span></div>
-                                                                                                                                                                                                                                                                                                                                        <div class="card department">🔎<strong>Research</strong><span class="muted">Mencari ide dan data</span></div>
-                                                                                                                                                                                                                                                                                                                                            <div class="card department">✍️<strong>Script Writer</strong><span class="muted">Menulis naskah</span></div>
-                                                                                                                                                                                                                                                                                                                                                <div class="card department">🎬<strong>Video Creator</strong><span class="muted">Membuat video</span></div>
-                                                                                                                                                                                                                                                                                                                                                    <div class="card department">✂️<strong>Editor</strong><span class="muted">Mengedit konten</span></div>
-                                                                                                                                                                                                                                                                                                                                                        <div class="card department">📢<strong>Marketing</strong><span class="muted">Promosi konten</span></div>
-                                                                                                                                                                                                                                                                                                                                                            <div class="card department">💰<strong>Finance</strong><span class="muted">Mengelola keuangan</span></div>
-                                                                                                                                                                                                                                                                                                                                                              </div>
+    h1 {
+      margin-bottom: 5px;
+    }
 
-                                                                                                                                                                                                                                                                                                                                                              <h2>🧠 Perintah CEO</h2>
-                                                                                                                                                                                                                                                                                                                                                              <div class="card">
-                                                                                                                                                                                                                                                                                                                                                                <textarea id="ceoCommand"
-                                                                                                                                                                                                                                                                                                                                                                    placeholder="Tulis perintah untuk perusahaan AI..."
-                                                                                                                                                                                                                                                                                                                                                                        style="width:100%;min-height:100px;padding:12px;border-radius:9px;background:#101827;color:white;border:1px solid #34445c;margin-bottom:12px;">
+    .muted {
+      color: #9ca9bd;
+    }
+
+    .header {
+      margin-bottom: 25px;
+    }
+
+    .stats,
+    .departments {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: #1c293c;
+      border: 1px solid #34445c;
+      border-radius: 14px;
+      padding: 17px;
+    }
+
+    .number {
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    h2 {
+      margin-top: 28px;
+      font-size: 20px;
+    }
+
+    .department {
+      min-height: 110px;
+    }
+
+    .department strong {
+      display: block;
+      margin: 10px 0;
+    }
+
+    button {
+      background: #7357ed;
+      color: white;
+      border: 0;
+      border-radius: 9px;
+      padding: 12px 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 10px 0;
+    }
+
+    .status {
+      color: #f6c76b;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <p class="muted">PUSAT KENDALI PERUSAHAAN</p>
+    <h1>AI Company 🚀</h1>
+    <p class="muted">CEO Dashboard | Selamat datang, CEO!</p>
+  </div>
+
+  <div class="stats">
+    <div class="card">
+      <div class="muted">Total Divisi</div>
+      <div class="number">7</div>
+    </div>
+    <div class="card">
+      <div class="muted">Total Tugas</div>
+      <div class="number" id="total">1</div>
+    </div>
+    <div class="card">
+      <div class="muted">Menunggu Persetujuan</div>
+      <div class="number" id="pending">1</div>
+    </div>
+  </div>
+
+  <h2>🏢 Divisi Perusahaan</h2>
+  <div class="departments">
+    <div class="card department">👔<strong>AI Manager</strong><span class="muted">Mengatur pekerjaan</span></div>
+    <div class="card department">🔎<strong>Research</strong><span class="muted">Mencari ide dan data</span></div>
+    <div class="card department">✍️<strong>Script Writer</strong><span class="muted">Menulis naskah</span></div>
+    <div class="card department">🎬<strong>Video Creator</strong><span class="muted">Membuat video</span></div>
+    <div class="card department">✂️<strong>Editor</strong><span class="muted">Mengedit konten</span></div>
+    <div class="card department">📢<strong>Marketing</strong><span class="muted">Promosi konten</span></div>
+    <div class="card department">💰<strong>Finance</strong><span class="muted">Mengelola keuangan</span></div>
+  </div>
+
+  <h2>🧠 Perintah CEO</h2>
+  <div class="card">
+    <textarea id="ceoCommand" placeholder="Tulis perintah untuk perusahaan AI..."
+      style="width:100%;min-height:100px;padding:12px;border-radius:9px;background:#101827;color:white;border:1px solid #34445c;margin-bottom:12px;">
                                                                                                                                                                                                                                                                                                                                                                           </textarea>
-                                                                                                                                                                                                                                                                                                                                                                            <button onclick="addTask()">Kirim Perintah</button>
-                                                                                                                                                                                                                                                                                                                                                                            </div>
+    <button onclick="addTask()">Kirim Perintah</button>
+  </div>
 
-                                                                                                                                                                                                                                                                                                                                                                            <h2>📌 Daftar Tugas CEO</h2>
-                                                                                                                                                                                                                                                                                                                                                                            <div class="card" id="taskList">
-                                                                                                                                                                                                                                                                                                                                                                              <p class="muted">Belum ada tugas baru.</p>
-                                                                                                                                                                                                                                                                                                                                                                              </div>
+  <h2>📌 Daftar Tugas CEO</h2>
+  <div class="card" id="taskList">
+    <p class="muted">Belum ada tugas baru.</p>
+  </div>
 
-                                                                                                                                                                                                                                                                                                                                                                              <script>
-                                                                                                                                                                                                                                                                                                                                                                              function addTask() {
-                                                                                                                                                                                                                                                                                                                                                                                const input = document.getElementById("ceoCommand");
-                                                                                                                                                                                                                                                                                                                                                                                  const command = input.value.trim();
+  <script>
+    function addTask() {
+      const input = document.getElementById("ceoCommand");
+      const command = input.value.trim();
 
-                                                                                                                                                                                                                                                                                                                                                                                    if (!command) {
-                                                                                                                                                                                                                                                                                                                                                                                        alert("Tulis perintah terlebih dahulu!");
+      if (!command) {
+        alert(ki ntah terlebihmz dahulu!");
                                                                                                                                                                                                                                                                                                                                                                                             return;
-                                                                                                                                                                                                                                                                                                                                                                                              }
+      }
 
-                                                                                                                                                                                                                                                                                                                                                                                                const list = document.getElementById("taskList");
-                                                                                                                                                                                                                                                                                                                                                                                                  const empty = list.querySelector(".muted");
-                                                                                                                                                                                                                                                                                                                                                                                                    if (empty) empty.remove();
+      const list = document.getElementById("taskList");
+      const empty = list.querySelector(".muted");
+      if (empty) empty.remove();
 
-                                                                                                                                                                                                                                                                                                                                                                                                      const task = document.createElement("div");
-                                                                                                                                                                                                                                                                                                                                                                                                        task.className = "task";
-                                                                                                                                                                                                                                                                                                                                                                                                          task.style.borderBottom = "1px solid #34445c";
-                                                                                                                                                                                                                                                                                                                                                                                                            task.style.padding = "12px 0";
+      const task = document.createElement("div");
+      task.className = "task";
+      task.style.borderBottom = "1px solid #34445c";
+      task.style.padding = "12px 0";
 
-                                                                                                                                                                                                                                                                                                                                                                                                              const name = document.createElement("strong");
-                                                                                                                                                                                                                                                                                                                                                                                                                name.textContent = command;
+      const name = document.createElement("strong");
+      name.textContent = command;
 
-                                                                                                                                                                                                                                                                                                                                                                                                                  const status = document.createElement("span");
-                                                                                                                                                                                                                                                                                                                                                                                                                    status.className = "status";
-                                                                                                                                                                                                                                                                                                                                                                                                                      status.textContent = "Menunggu dikerjakan";
+      const status = document.createElement("span");
+      status.className = "status";
+      status.textContent = "Menunggu dikerjakan";
 
-                                                                                                                                                                                                                                                                                                                                                                                                                        task.append(name, status);
-                                                                                                                                                                                                                                                                                                                                                                                                                          list.appendChild(task);
+      task.append(name, status);
+      list.appendChild(task);
 
-                                                                                                                                                                                                                                                                                                                                                                                                                            input.value = "";
-                                                                                                                                                                                                                                                                                                                                                                                                                              document.getElementById("total").textContent =
-                                                                                                                                                                                                                                                                                                                                                                                                                                  Number(document.getElementById("total").textContent) + 1;
-                                                                                                                                                                                                                                                                                                                                                                                                                                  }
-                                                                                                                                                                                                                                                                                                                                                                                                                                  </script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                                                                                                                <h2>📋 Pusat Persetujuan CEO</h2>
-                                                                                                                                                                                                                                                                                                                                                                  <div class="card">
-                                                                                                                                                                                                                                                                                                                                                                      <div class="task">
-                                                                                                                                                                                                                                                                                                                                                                            <div>
-                                                                                                                                                                                                                                                                                                                                                                                    <strong id="taskName">Membuat ide konten pertama</strong>
-                                                                                                                                                                                                                                                                                                                                                                                            <div class="status" id="taskStatus">Menunggu persetujuan CEO</div>
-                                                                                                                                                                                                                                                                                                                                                                                                  </div>
-                                                                                                                                                                                                                                                                                                                                                                                                        <button onclick="approveTask()">Setujui</button>
-                                                                                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                                                                                              </div>
+      input.value = "";
+      document.getElementById("total").textContent =
+        Number(document.getElementById("total").textContent) + 1;
+    }
+  </script>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                <script>
-                                                                                                                                                                                                                                                                                                                                                                                                                    function approveTask() {
-                                                                                                                                                                                                                                                                                                                                                                                                                          document.getElementById("taskStatus").textContent = "Disetujui CEO ✅";
-                                                                                                                                                                                                                                                                                                                                                                                                                                document.getElementById("pending").textContent = "0";
-                                                                                                                                                                                                                                                                                                                                                                                                                                      alert("Tugas berhasil disetujui!");
-                                                                                                                                                                                                                                                                                                                                                                                                                                          }
-                                                                                                                                                                                                                                                                                                                                                                                                                                            </script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            </body>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            
+  <h2>📋 Pusat Persetujuan CEO</h2>
+  <div class="card">
+    <div class="task">
+      <div>
+        <strong id="taskName">Membuat ide konten pertama</strong>
+        <div class="status" id="taskStatus">Menunggu persetujuan CEO</div>
+      </div>
+      <button onclick="approveTask()">Setujui</button>
+    </div>
+  </div>
+
+  <script>
+    function approveTask() {
+      document.getElementById("taskStatus").textContent = "Disetujui CEO ✅";
+      document.getElementById("pending").textContent = "0";
+      alert("Tugas berhasil disetujui!");
+    }
+  </script>
+
+</body>
+
+</html>
