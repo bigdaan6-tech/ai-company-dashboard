@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Video Creator</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;padding:18px;background:#0b1120;color:white;
+  font-family:Arial,sans-serif;
+  }
+  h1{font-size:26px}
+  p{color:#aab6c8;line-height:1.5}
+  .card{
+   background:#19263a;border:1px solid #34445e;
+    padding:16px;border-radius:15px;margin:15px 0;
+    }
+    label{display:block;margin:14px 0 7px}
+    input,textarea,select{
+     width:100%;padding:12px;border-radius:9px;
+      background:#0b1120;color:white;
+       border:1px solid #475569;font-size:15px;
+       }
+       textarea{min-height:85px}
+       button{
+        background:#7657ee;color:white;border:0;
+         padding:13px;border-radius:9px;
+          font-weight:bold;width:100%;margin-top:12px;
+          }
+          canvas{
+           width:100%;max-width:360px;
+            display:block;margin:auto;
+             background:black;border-radius:12px;
+             }
+             .progress{
+              height:8px;background:#34445e;
+               border-radius:10px;overflow:hidden;margin-top:12px;
+               }
+               #bar{height:100%;width:0;background:#8b75ff}
+               .small{font-size:12px;color:#94a3b8}
+               </style>
+               </head>
+               <body>
+
+               <h1>🎬 AI VIDEO CREATOR</h1>
+               <p>Studio produksi video perusahaan AI</p>
+
+               <div class="card">
+                <h3>📝 Informasi Video</h3>
+                 <label>Nama produk</label>
+                  <input id="product" value="Senter LED Multifungsi">
+
+                   <label>Durasi</label>
+                    <select id="duration">
+                      <option value="60">60 detik</option>
+                        <option value="30">30 detik</option>
+                          <option value="15">15 detik</option>
+                           </select>
+
+                            <label>Gaya video</label>
+                             <select id="style">
+                               <option value="cinematic">Cinematic gelap</option>
+                                 <option value="modern">Modern futuristik</option>
+                                   <option value="simple">Minimalis</option>
+                                    </select>
+
+                                     <label>Naskah narator</label>
+                                      <textarea id="script">Gelap datang tanpa pemberitahuan. Tapi kamu harus selalu siap. Kenalkan, senter LED multifungsi. Teman andalan saat kamu membutuhkan penerangan. Cocok untuk camping, perjalanan malam, perbaikan rumah, hingga keadaan darurat. Satu senter, banyak kegunaan. Terang saat dibutuhkan!</textarea>
+
+                                       <button onclick="preview()">Buat Pratinjau Video</button>
+                                       </div>
+
+                                       <div class="card">
+                                        <h3>📱 Pratinjau Video Vertikal</h3>
+                                         <canvas id="screen" width="360" height="640"></canvas>
+                                          <p id="status" class="small">Studio siap digunakan.</p>
+                                           <div class="progress"><div id="bar"></div></div>
+                                            <button onclick="playPreview()">▶ Putar Pratinjau</button>
+                                             <button onclick="recordVideo()">🎥 Buat dan Rekam Video</button>
+                                              <button onclick="stopVideo()" style="background:#a33e55">■ Hentikan Rekaman</button>
+                                               <p class="small">Rekaman awal menggunakan WebM. MP4 dapat dibuat pada tahap ekspor berikutnya.</p>
+                                                <a id="download" style="display:none;color:#a99aff" download="ai-company-video.webm">Unduh video</a>
+                                                </div>
+
+                                                <script>
+                                                const canvas=document.getElementById("screen");
+                                                const ctx=canvas.getContext("2d");
+                                                let frame=0,playing=false,timer=null;
+                                                let recorder=null,chunks=[],stream=null;
+
+                                                const scenes=[
+                                                 ["GELAP DATANG","Saatnya selalu siap."],
+                                                  ["SENTER LED","Penerangan saat dibutuhkan."],
+                                                   ["CAHAYA LEBIH JELAS","Teman aktivitas malam."],
+                                                    ["SIAP DI SEGALA SITUASI","Camping • Rumah • Perjalanan"],
+                                                     ["SATU SENTER","Banyak kegunaan."],
+                                                      ["TERANG SAAT DIBUTUHKAN","Siapkan senter LED-mu!"]
+                                                      ];
+
+                                                      function draw(){
+                                                       const product=document.getElementById("product").value||"Senter LED";
+                                                        const style=document.getElementById("style").value;
+                                                         const duration=Number(document.getElementById("duration").value);
+                                                          const total=duration*30;
+                                                           const progress=(frame%total)/total;
+                                                            const scene=Math.min(5,Math.floor(progress*6));
+
+                                                             let gradient=ctx.createLinearGradient(0,0,360,640);
+                                                              gradient.addColorStop(0,style==="simple"?"#172033":"#050916");
+                                                               gradient.addColorStop(1,style==="modern"?"#273c64":"#111b30");
+                                                                ctx.fillStyle=gradient;
+                                                                 ctx.fillRect(0,0,360,640);
+
+                                                                  const glow=ctx.createRadialGradient(180,280,5,180,280,240);
+                                                                   glow.addColorStop(0,"rgba(255,245,180,.45)");
+                                                                    glow.addColorStop(1,"rgba(255,245,180,0)");
+                                                                     ctx.fillStyle=glow;
+                                                                      ctx.fillRect(0,0,360,640);
+
+                                                                       ctx.fillStyle="#a5a9c5";
+                                                                        ctx.font="bold 13px Arial";
+                                                                         ctx.textAlign="center";
+                                                                          ctx.fillText("AI COMPANY PRESENTS",180,65);
+
+                                                                           ctx.fillStyle="#ffffff";
+                                                                            ctx.font="bold 29px Arial";
+                                                                             ctx.fillText(scenes[scene][0],180,150);
+
+                                                                              ctx.save();
+                                                                               ctx.translate(180,290);
+                                                                                ctx.rotate(-.18);
+                                                                                 ctx.fillStyle="#111827";
+                                                                                  ctx.fillRect(-105,-27,210,54);
+                                                                                   ctx.fillStyle="#475569";
+                                                                                    ctx.fillRect(-100,-23,150,46);
+                                                                                     ctx.fillStyle="#dce8f5";
+                                                                                      ctx.fillRect(48,-31,25,62);
+                                                                                       ctx.fillStyle="#fef3c7";
+                                                                                        ctx.beginPath();
+                                                                                         ctx.ellipse(73,0,9,27,0,0,Math.PI*2);
+                                                                                          ctx.fill();
+                                                                                           ctx.restore();
+
+                                                                                            ctx.fillStyle="#ffffff";
+                                                                                             ctx.font="bold 21px Arial";
+                                                                                              ctx.fillText(product,180,410);
+
+                                                                                               ctx.fillStyle="#cbd5e1";
+                                                                                                ctx.font="17px Arial";
+                                                                                                 ctx.fillText(scenes[scene][1],180,450);
+
+                                                                                                  ctx.fillStyle="#a5a9c5";
+                                                                                                   ctx.font="13px Arial";
+                                                                                                    ctx.fillText("PROMO VIDEO • "+duration+" DETIK",180,585);
+
+                                                                                                     ctx.fillStyle="#7657ee";
+                                                                                                      ctx.fillRect(35,610,290*progress,5);
+
+                                                                                                       frame++;
+                                                                                                       }
+
+                                                                                                       function preview(){
+                                                                                                        frame=0;
+                                                                                                         draw();
+                                                                                                          document.getElementById("status").textContent=
+                                                                                                           "Pratinjau berhasil dibuat.";
+                                                                                                           }
+
+                                                                                                           function playPreview(){
+                                                                                                            if(playing)return;
+                                                                                                             playing=true;
+                                                                                                              timer=setInterval(()=>{
+                                                                                                                draw();
+                                                                                                                  if(frame>=Number(document.getElementById("duration").value)*30){
+                                                                                                                     stopPreview();
+                                                                                                                       }
+                                                                                                                        },1000/30);
+                                                                                                                        }
+
+                                                                                                                        function stopPreview(){
+                                                                                                                         playing=false;
+                                                                                                                          clearInterval(timer);
+                                                                                                                          }
+
+                                                                                                                          function recordVideo(){
+                                                                                                                           if(!window.MediaRecorder){
+                                                                                                                             alert("Browser ini belum mendukung perekaman video.");
+                                                                                                                               return;
+                                                                                                                                }
+                                                                                                                                 stopPreview();
+                                                                                                                                  frame=0;
+                                                                                                                                   chunks=[];
+                                                                                                                                    stream=canvas.captureStream(30);
+                                                                                                                                     let type="video/webm;codecs=vp9";
+                                                                                                                                      if(!MediaRecorder.isTypeSupported(type))type="video/webm";
+                                                                                                                                       recorder=new MediaRecorder(stream,{mimeType:type});
+
+                                                                                                                                        recorder.ondataavailable=e=>{
+                                                                                                                                          if(e.data.size)chunks.push(e.data);
+                                                                                                                                           };
+                                                                                                                                            recorder.onstop=()=>{
+                                                                                                                                              const blob=new Blob(chunks,{type:"video/webm"});
+                                                                                                                                                const url=URL.createObjectURL(blob);
+                                                                                                                                                  const link=document.getElementById("download");
+                                                                                                                                                    link.href=url;
+                                                                                                                                                      link.style.display="block";
+                                                                                                                                                        link.textContent="⬇ Unduh video WebM";
+                                                                                                                                                          document.getElementById("status").textContent=
+                                                                                                                                                             "Video berhasil direkam!";
+                                                                                                                                                               stream.getTracks().forEach(t=>t.stop());
+                                                                                                                                                                };
+                                                                                                                                                                 recorder.start();
+                                                                                                                                                                  document.getElementById("status").textContent=
+                                                                                                                                                                   "Sedang merekam video...";
+                                                                                                                                                                    const total=Number(document.getElementById("duration").value)*30;
+                                                                                                                                                                     let count=0;
+                                                                                                                                                                      const recording=setInterval(()=>{
+                                                                                                                                                                        draw();
+                                                                                                                                                                          count++;
+                                                                                                                                                                            document.getElementById("bar").style.width=
+                                                                                                                                                                               (count/total*100)+"%";
+                                                                                                                                                                                 if(count>=total){
+                                                                                                                                                                                    clearInterval(recording);
+                                                                                                                                                                                       if(recorder.state==="recording")recorder.stop();
+                                                                                                                                                                                         }
+                                                                                                                                                                                          },1000/30);
+                                                                                                                                                                                           window.currentRecording=recording;
+                                                                                                                                                                                           }
+
+                                                                                                                                                                                           function stopVideo(){
+                                                                                                                                                                                            if(recorder&&recorder.state==="recording"){
+                                                                                                                                                                                              clearInterval(window.currentRecording);
+                                                                                                                                                                                                recorder.stop();
+                                                                                                                                                                                                 }
+                                                                                                                                                                                                  stopPreview();
+                                                                                                                                                                                                  }
+                                                                                                                                                                                                  preview();
+                                                                                                                                                                                                  </script>
+                                                                                                                                                                                                  </body>
+                                                                                                                                                                                                  </html>
+                                                                                                                                                                                                  
